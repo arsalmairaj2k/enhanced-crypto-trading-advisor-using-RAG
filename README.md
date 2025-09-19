@@ -1,28 +1,38 @@
 Crypto Trading Guide RAG System
-Overview
-The Crypto Trading Guide RAG System is a Retrieval-Augmented Generation (RAG) application designed to provide real-time cryptocurrency trading advice. It integrates live market data, news, expert insights, historical data, and trading strategies to deliver comprehensive, actionable recommendations. The system uses Google Generative AI models for natural language processing and FAISS for efficient document retrieval, making it a powerful tool for crypto traders.
-Key features include:
+A Retrieval-Augmented Generation (RAG) system designed to provide real-time cryptocurrency trading advice by combining live market data, news, expert insights, and trading strategies. The system uses LangChain with Google Generative AI models to deliver actionable recommendations, technical analysis, and portfolio insights.
+Features
 
-Real-time market data from CoinGecko
-News aggregation from multiple RSS feeds
-Historical price analysis using yfinance
-Expert insights and trading strategies
-Interactive chat interface for user queries
-Background data updates for real-time information
-Robust error handling and input validation
+Real-Time Market Data: Fetches live price data and metrics for cryptocurrencies like Bitcoin, Ethereum, and Cardano via the CoinGecko API.
+Crypto News Aggregation: Collects and summarizes recent news from RSS feeds (e.g., CoinTelegraph, CoinDesk).
+Historical Data Analysis: Analyzes historical price data using yfinance for technical indicators like RSI, SMA, and volatility.
+Expert Insights: Incorporates expert analysis from crypto thought leaders (mock data; extendable to Twitter/YouTube APIs).
+Trading Strategies: Provides educational content on strategies like Dollar-Cost Averaging (DCA) and risk management.
+Interactive Chat Interface: Allows users to ask trading-related questions and receive detailed responses with source citations.
+Background Updates: Automatically refreshes data every 5 minutes for real-time insights.
+Portfolio Analysis: Evaluates user portfolios for diversification and risk, offering rebalancing suggestions.
+Robust Error Handling: Includes input validation and per-request error management for reliability.
+Unit Testing: Includes basic unit tests to ensure core functionality (e.g., RSI calculation, portfolio validation).
 
-Installation
 Prerequisites
 
-Python 3.8 or higher
-Stable internet connection for API calls
-Google API key for Google Generative AI models
+Python: Version 3.8 or higher.
+Google API Key: Required for Google Generative AI models. Obtain from Google AI Studio.
+Internet Connection: Needed for API calls to CoinGecko, yfinance, and RSS feeds.
+Git: For cloning the repository (optional).
 
-Dependencies
-Install the required Python libraries using pip:
-pip install python-dotenv requests pandas feedparser beautifulsoup4 yfinance numpy langchain-google-genai faiss-cpu langchain-community langchain
+Installation
 
-For reproducibility, consider using a requirements.txt file with pinned versions:
+Clone the Repository:
+git clone https://github.com/your-username/crypto-trading-guide-rag.git
+cd crypto-trading-guide-rag
+
+
+Install Dependencies:Create a virtual environment (optional but recommended) and install the required libraries:
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+
+Recommended requirements.txt with pinned versions for reproducibility:
 python-dotenv==1.0.1
 requests==2.31.0
 pandas==2.2.2
@@ -35,30 +45,22 @@ faiss-cpu==1.8.0
 langchain-community==0.2.16
 langchain==0.2.16
 
-Install with:
-pip install -r requirements.txt
 
-Environment Setup
+Set Up Environment Variables:Create a .env file in the project root with your Google API key:
+echo "GOOGLE_API_KEY=your-google-api-key" > .env
 
-Create a .env file in the project root directory.
-Add your Google API key:
+Alternatively, the system will prompt for the key during execution if not set.
 
-GOOGLE_API_KEY=your_google_api_key_here
 
-You can obtain a Google API key from Google AI Studio. If the key is not provided, the system will prompt for it during execution.
 Usage
 
-Clone or download the project files.
-Ensure all dependencies are installed and the .env file is configured.
-Run the main script:
-
+Run the Script:
 python lc.py
 
 
-The system will initialize by fetching data from various sources (CoinGecko, RSS feeds, yfinance) and setting up the RAG pipeline.
-Once initialized, you’ll enter the chat mode with the following prompt:
+Interact with the Chat Interface:
 
-============================================================
+After initialization, you’ll see the chat prompt:============================================================
 CRYPTO TRADING ADVISOR - CHAT MODE
 ============================================================
 
@@ -72,107 +74,62 @@ Type your question below (commands: 'quit' to exit, 'update' to refresh data, 's
 You:
 
 
-Interact with the system by:
-
-Asking crypto-related questions (e.g., "Should I buy Bitcoin now?").
-Using special commands:
+Enter a question (e.g., "Should I buy Bitcoin now?") or a command:
 summary: Get a comprehensive market overview.
-update: Refresh data from live sources.
-quit, exit, or bye: Exit the application.
+update: Refresh data from APIs.
+quit: Exit the program.
 
 
+The system responds with detailed advice, including market analysis, risk considerations, and source citations.
 
 
-The system responds with detailed advice, including market analysis, risk considerations, recommendations, and referenced sources.
+Example Commands:
+
+Ask about market sentiment: What's the current market sentiment for Bitcoin?
+Request portfolio analysis: Analyze my portfolio: BTC=0.5, ETH=2.0
+Learn about strategies: Explain dollar-cost averaging strategy for crypto
 
 
-Features
-
-Real-Time Data:
-
-Fetches live market data for cryptocurrencies like Bitcoin, Ethereum, and Cardano from CoinGecko.
-Aggregates news from trusted sources (CoinTelegraph, CoinDesk, CryptoNews, Decrypt).
-Updates data every 5 minutes in the background for real-time insights.
-
-
-Historical Analysis:
-
-Retrieves historical price data using yfinance.
-Calculates technical indicators like RSI, SMA, volatility, and Sharpe ratio.
-
-
-Expert Insights:
-
-Includes curated expert analyses from industry figures (e.g., Peter Brandt, Plan B).
-Provides insights on technical analysis, on-chain metrics, and market fundamentals.
-
-
-Trading Strategies:
-
-Offers educational content on strategies like Dollar-Cost Averaging, Technical Analysis, and Risk Management.
-
-
-Interactive Chat Interface:
-
-Modular chat() method for conversational interaction.
-Supports natural language queries with detailed, source-referenced responses.
-Maintains chat history for context.
-
-
-Robust Error Handling:
-
-Validates inputs (e.g., portfolio dictionary, question strings).
-Handles API errors and network issues gracefully.
-
-
-Testing:
-
-Includes unit tests for key functionalities (e.g., RSI calculation, portfolio validation).
-Run tests with: python -m unittest lc.py.
-
-
-Explainability:
-
-Responses include explanations of why recommendations are made, based on specific data points, indicators, or news.
+Run Unit Tests:To verify core functionality, run the tests:
+python -m unittest lc.py
 
 
 
 Project Structure
 
-lc.py: Main script containing the CryptoTradingGuideRAG class, chat interface, and tests.
-.env: Environment file for storing the Google API key (not included in version control).
-requirements.txt (optional): Recommended for pinning dependency versions.
-
-Example Questions
-
-"What's the current market sentiment for Bitcoin?"
-"Should I buy Ethereum now or wait for a dip?"
-"Explain dollar-cost averaging strategy for crypto."
-"What are the key technical indicators I should watch?"
-"How should I manage risk in crypto trading?"
+lc.py: Main script containing the CryptoTradingGuideRAG class and chat interface.
+.env: Environment file for storing the Google API key (not tracked in git).
+requirements.txt: List of dependencies with pinned versions (create based on the installation section).
+README.md: This file, providing project documentation.
 
 Notes
 
-API Key Security: For production use, consider a secrets manager (e.g., AWS Secrets Manager, HashiCorp Vault) instead of a .env file.
-Library Compatibility: Ensure urllib3 and OpenSSL versions are compatible to avoid warnings. Update libraries if needed.
-Rate Limiting: The system includes delays to respect API rate limits (e.g., CoinGecko, yfinance).
-Extensibility: The chat() method is modular and can be extended for GUI integration (e.g., Streamlit) or WebSocket-based real-time notifications.
+API Key Security: For production, consider using a secrets manager (e.g., AWS Secrets Manager, HashiCorp Vault) instead of .env.
+Error Handling: The system handles API failures and invalid inputs gracefully, with detailed error messages.
+Real-Time Updates: Data is updated every 5 minutes in the background. Use the update command for immediate refreshes.
+Extensibility: The chat interface is modular and can be extended to a web-based UI (e.g., Streamlit) or WebSocket-based notifications.
+Library Compatibility: Ensure requests and urllib3 are compatible with your system’s OpenSSL version to avoid warnings.
 
 Troubleshooting
 
-API Errors: Ensure a stable internet connection and valid Google API key.
-Missing Dependencies: Verify all libraries are installed with correct versions.
-Data Fetch Issues: Check RSS feed URLs and CoinGecko API status.
-Startup Errors: Review the error message and ensure setup steps are followed (see error message in the console).
+API Key Issues: If prompted for a key, ensure it’s valid and set in .env or entered correctly.
+API Failures: Check your internet connection and API rate limits (CoinGecko, yfinance).
+Library Errors: Verify all dependencies are installed with the correct versions.
+Warnings: If you encounter urllib3 warnings, update the library or check OpenSSL compatibility.
 
-Future Improvements
+Contributing
+Contributions are welcome! Please:
 
-Add a web-based UI using Streamlit or Flask for a graphical chat interface.
-Implement WebSocket support for real-time data notifications.
-Expand expert insights with live data from X API or YouTube API.
-Add more technical indicators (e.g., MACD, Bollinger Bands) for deeper analysis.
+Fork the repository.
+Create a feature branch (git checkout -b feature/your-feature).
+Commit changes (git commit -m "Add your feature").
+Push to the branch (git push origin feature/your-feature).
+Open a pull request.
 
 License
-This project is for educational purposes and provided as-is. Always conduct your own research before making trading decisions. Cryptocurrency investments carry high risk.
+This project is licensed under the MIT License. See the LICENSE file for details.
+Acknowledgments
 
-Happy trading! 🚀 For questions or contributions, contact the project maintainer.
+Powered by LangChain and Google Generative AI.
+Data sources: CoinGecko, yfinance, CoinTelegraph, CoinDesk, CryptoNews, Decrypt.
+Inspired by the need for reliable, data-driven crypto trading advice.
